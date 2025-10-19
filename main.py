@@ -4,7 +4,7 @@ import os
 
 app = FastAPI()
 
-# Claves seguras (Render las leerá de variables de entorno)
+# Claves desde variables de entorno (seguras en Render)
 api_key = os.getenv("BINANCE_API_KEY")
 api_secret = os.getenv("BINANCE_API_SECRET")
 
@@ -22,11 +22,16 @@ async def webhook(request: Request):
     data = await request.json()
     print("📩 Webhook recibido:", data)
 
-    symbol = data.get("symbol", "BTC/USDT")
+    symbol = data.get("symbol", "BTC/USDC")
     side = data.get("side", "BUY").lower()
-    amount = float(data.get("amount", 0.001))
+    usd_amount = float(data.get("usd_amount", 6.5))
 
     try:
+        # Obtener precio actual de mercado
+        ticker = binance.fetch_ticker(symbol)
+        price = ticker['last']
+        amount = usd_amount / price  # Convertir USDC a BTC
+
         order = binance.create_market_order(symbol, side, amount)
         print(f"✅ Orden {side.upper()} ejecutada correctamente:", order)
         return {"status": "success", "order": order}
