@@ -6,8 +6,7 @@ app = FastAPI()
 
 # Claves seguras (Render las leerá de variables de entorno)
 api_key = os.getenv("G2MW54fsG3LzB0zURNUuOA752RMuwBkZ3Dn0vVU7NtzRwufl9YFAuksfPaVxwMRC")
-api_secret = os.getenv("Paovqmp2b9MUKspJi3o6Fqi0Rk96diPEXqmypErEtXC9xZN0GPS4DF4M5ol397Fi
-")
+api_secret = os.getenv("Paovqmp2b9MUKspJi3o6Fqi0Rk96diPEXqmypErEtXC9xZN0GPS4DF4M5ol397Fi")
 
 binance = ccxt.binance({
     'apiKey': api_key,
